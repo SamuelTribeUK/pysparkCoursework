@@ -5,7 +5,6 @@ from pyspark.sql import functions as F
 conf = SparkConf().setAppName("covid19").setMaster("local")
 sc = SparkContext(conf=conf)
 spark = SparkSession(sc)
-sc.setLogLevel("Error")
 csvPath = "C:\spark\COMP336-Coursework-1\data\covid19.csv"
 covidDF = spark.read.csv(csvPath,header=True,inferSchema=True)
 covidDF.show()

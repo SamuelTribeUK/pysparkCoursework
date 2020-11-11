@@ -12,7 +12,7 @@ from pyspark.sql import functions as F
 conf = SparkConf().setAppName("covid19").setMaster("local")
 sc = SparkContext(conf=conf)
 spark = SparkSession(sc)
-#sc.setLogLevel("Error")
+
 # The path of the csv data file is specified here, change this string for use on
 # different OS or machines
 csvPath = "C:\spark\COMP336-Coursework-1\data\covid19.csv"
@@ -24,7 +24,7 @@ def separatorText(heading):
     print(heading)
     print("---------------------------------------------------------------------------------")
 
-separatorText("Coursework 1 Big Data Analytics - Sam Tribe - 201318996")
+separatorText("Coursework 1 Big Data Analytics - Samuel Tribe - 201318996")
 
 # The covid19.csv file is read with header=True and inferSchema=True (to ensure
 # correct dataTypes)
