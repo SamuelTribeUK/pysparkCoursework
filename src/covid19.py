@@ -67,5 +67,8 @@ covidDF.groupBy(['location']).agg(F.max(covidDF.total_cases).alias('total_cases(
 # aggregate functions are almost identical to the highest deaths per country
 # above, except the column name for total cases is renamed and the resulting
 # dataframe is orderedBy the total_cases(min) in ascending order
-separatorText("lowest cases per country sorted by lowest first")
+# separatorText("lowest cases per country sorted by lowest first")
+# covidDF.groupBy(['location']).agg(F.max(covidDF.total_cases).alias('total_cases(min)')).orderBy('total_cases(min)',ascending=True).show()
+
+separatorText("min function for total_cases")
 covidDF.groupBy(['location']).agg(F.max(covidDF.total_cases).alias('total_cases(min)')).orderBy('total_cases(min)',ascending=True).show()
