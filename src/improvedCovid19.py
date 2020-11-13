@@ -1,7 +1,9 @@
 # Samuel Tribe - 201318996 - S.Tribe@student.liverpool.ac.uk
-# This is the full version of the pyspark script with user-friendly printing
-# and labels and comments to make the data easier to understand. For a stripped
-# down version see minimalCovid19.py
+# This is the full version of the improved pyspark script with user-friendly
+# printing and labels and comments to make the data easier to understand. For a
+# more direct interpretation of the instructions see firstCovid19.py
+# For a stripped down version of this code (without the separatorText function
+# and the comments) see minimalImprovedCovid19.py
 
 # Importing all required pyspark libraries and functions
 from pyspark import SparkContext, SparkConf
@@ -56,19 +58,19 @@ separatorText("null-dropped dataframe row count: " + str(covidDF.count()))
 separatorText("Highest deaths per country")
 covidDF.groupBy(['location']).agg(F.max(covidDF.total_deaths)).show()
 
-# The highest cases per country are calculated and shown here. the groupBy and
-# aggregate functions are almost identical to the highest deaths per country
-# above, except the column name for total cases is renamed and the resulting
-# dataframe is orderedBy the total_cases(max) in descending order
+# The maximum total cases per country are calculated here and saved back to
+# covidDF. The groupBy and aggregate functions are almost identical to the
+# highest deaths per country above, except the column name for total cases is
+# renamed to 'total_cases_max' ready for the next operation
+covidDF = covidDF.groupBy(['location']).agg(F.max(covidDF.total_cases).alias('total_cases(max)'))
+
+# The dataframe calculated above is ordered by total_cases(max) in descending
+# order so the countries with the highest number of total_cases is shown first
 separatorText("Highest cases per country sorted by highest first")
-covidDF.groupBy(['location']).agg(F.max(covidDF.total_cases).alias('total_cases(max)')).orderBy('total_cases(max)',ascending=False).show()
+covidDF.orderBy('total_cases(max)',ascending=False).show()
 
-# The lowest cases per country are calculated and shown here. the groupBy and
-# aggregate functions are almost identical to the highest deaths per country
-# above, except the column name for total cases is renamed and the resulting
-# dataframe is orderedBy the total_cases(min) in ascending order
-# separatorText("lowest cases per country sorted by lowest first")
-# covidDF.groupBy(['location']).agg(F.max(covidDF.total_cases).alias('total_cases(min)')).orderBy('total_cases(min)',ascending=True).show()
-
-separatorText("min function for total_cases")
-covidDF.groupBy(['location']).agg(F.max(covidDF.total_cases).alias('total_cases(min)')).orderBy('total_cases(min)',ascending=True).show()
+# The dataframe calculated above is ordered by total_cases(max) in ascending
+# order this time so the countries with the lowest number of total_cases is
+# shown first (lowest number of up to date total_cases)
+separatorText("lowest cases per country sorted by lowest first")
+covidDF.orderBy('total_cases(max)',ascending=True).withColumnRenamed('total_cases(max)','total_cases(min)').show()
